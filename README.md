@@ -1,4 +1,4 @@
-# New Project
+# Fabric calculator
 
 > ✨ Bootstrapped with Create Snowpack App (CSA).
 
