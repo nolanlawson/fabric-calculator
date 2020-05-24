@@ -10,7 +10,6 @@
     "@testing-library/jest-dom": "^5.5.0",
     "@testing-library/svelte": "^3.0.0",
     "jest": "^25.4.0",
-    "rollup-plugin-node-polyfills": "^0.2.1",
     "snowpack": "^2.0.0-0",
     "standard": "^14.3.4",
     "svelte": "^3.21.0"
