@@ -2,67 +2,94 @@
 <div class="app">
   <h1>Fabric calculator</h1>
   <p>
-    This tool helps you figure out how much fabric you should buy based on the pieces you need to cut.
-    It assumes fabric is sold by the half-yard (18 inches).
+    This tool can calculate how much fabric you should buy based on the pieces you need to cut.
+    The default assumption is that fabric is sold by the half-yard. All values are in inches.
   </p>
-  <div class="flex">
+  <div class="flex flex-h-when-big">
     <div>
-      <div>
-        <label>
-          <span>Width of fabric you're buying (inches): </span>
-          <input type="number" placeholder="45" bind:value={fabricWidth} on:change={calculateFabricNeeded}>
-        </label>
+      <div class="pad-v-10 pad-h-10">
+        <div class="grid grid-2 grid-pad-20">
+          <label for="fabric-width">Width of fabric you're buying:</label>
+          <div><input id="fabric-width" type="number" placeholder="45" bind:value={fabricWidth}></div>
+          <label for="fabric-increment">Fabric sold in increments of:</label>
+          <div><input id="fabric-increment" type="number" placeholder="18" bind:value={fabricSoldBy}></div>
+          <div class="grid-span-2">
+            <input id="fabric-rotation" type="checkbox" bind:checked={allowRotation}>
+            <label for="fabric-rotation">Allow cutting against the seam</label>
+          </div>
+        </div>
       </div>
       <div>
         <h2>Pieces of fabric</h2>
         <ul>
-          {#each fabricPieces as fabricPiece, i}
-            <li>
-              <strong>Fabric piece #{i + 1}</strong>
-              <div class="form-group">
-                <label>
-                  <span>Width (inches):</span>
-                  <input type="number"
-                         placeholder="10"
-                         bind:value={fabricPieces[i].width}
-                         on:change={calculateFabricNeeded}>
-                </label>
-              </div><div>
-                <label>
-                  <span>Height (inches):</span>
-                  <input type="number"
-                         placeholder="10"
-                         bind:value={fabricPieces[i].height}
-                         on:change={calculateFabricNeeded}>
-                </label>
-              </div>
-            </li>
-          {/each}
+            {#each fabricPieces as fabricPiece, i}
+              <li>
+                <strong>Fabric piece #{i + 1}</strong>
+                <div class="pad-v-10">
+                  <label class="label-v">
+                    <span>Width:</span>
+                    <input type="number"
+                           placeholder="10"
+                           bind:value={fabricPieces[i].width}>
+                  </label>
+                </div>
+                <div class="pad-v-10">
+                  <label class="label-v">
+                    <span>Length:</span>
+                    <input type="number"
+                           placeholder="10"
+                           bind:value={fabricPieces[i].height}>
+                  </label>
+                </div>
+                <div class="pad-v-10">
+                  <button type="button" on:click={() => removeFabricPiece(i)}>Remove</button>
+                </div>
+              </li>
+            {/each}
         </ul>
         <button type="button" on:click={addFabricPiece}>Add fabric piece</button>
       </div>
     </div>
     <div>
-     <!-- canvas goes here -->
+      <!-- canvas goes here -->
     </div>
   </div>
-  <div class="error-message">
-    {#if errorMessage}
-      <span>{errorMessage}</span>
-    {/if}
-  </div>
-  <div class="solution-message">
-    {#if solutionMessage}
-      <span>{solutionMessage}</span>
-    {/if}
-  </div>
+  {#if errorMessage}
+    <div class="error-message pad-v-10">{errorMessage}</div>
+  {/if}
+  {#if solution && !errorMessage}
+    <div class="solution-message pad-v-10">
+      You need a piece of fabric <strong>{solution.fabricHeight} inches</strong> long
+    </div>
+  {/if}
 </div>
 <style>
+  :global(*, *::before, *::after) {
+    box-sizing: border-box;
+  }
   :global(body) {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: sans-serif;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+  }
+
+  .grid {
+    display: grid;
+    align-items: center;
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-pad-20 {
+    grid-row-gap: 20px;
+    grid-column-gap: 20px;
+  }
+
+  .grid-span-2 {
+    grid-column: 1 / 3;
   }
 
   .flex {
@@ -70,31 +97,74 @@
   }
 
   .flex > * {
-    flex: 1
+    flex: 1;
+  }
+
+  .flex-h {
+    flex-direction: row;
+  }
+
+  .flex-h-when-big {
+    flex-direction: row;
+  }
+
+  @media (max-width: 767px) {
+    .flex-h-when-big {
+      flex-direction: column;
+    }
   }
 
   ul {
     list-style: none;
   }
 
-  .form-group, label {
-    padding: 10px 0;
+  .pad-v-10 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .pad-h-10 {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   .error-message {
     color: darkred;
-    padding: 20px;
+  }
+
+  .label-v > * {
+    display: block;
+    padding: 10px 0;
+  }
+
+  .label-h > * {
+    padding: 10px 0;
+  }
+
+  button {
+    padding: 3px 7px;
+    font-size: 1.1em;
+    cursor: pointer;
+  }
+
+  input {
+    font-size: 1em;
+  }
+
+  input[type=checkbox] {
+    margin-right: 10px;
   }
 
 </style>
 <script>
-  import { packer } from './packer.js'
-  const FABRIC_SOLD_BY = 18 // half a yard
+  import { packer } from 'guillotine-packer'
+
+  let fabricSoldBy = 18 // half a yard
   let fabricPieces = []
   let fabricWidth = 45
+  let allowRotation = true
   let errorMessage = ''
   let solution
-  let solutionMessage = ''
 
   let fabric
 
@@ -103,45 +173,46 @@
       width: 10,
       height: 10
     }])
-    calculateFabricNeeded()
   }
 
-  function calculateFabricNeeded () {
-    console.log('calculateFabricNeeded')
-    errorMessage = ''
-    if (!fabricPieces.length) {
-      return
-    }
-    if (fabricPieces.some(({ width, height}) => (width > fabricWidth && height > fabricWidth))) {
-      errorMessage = 'One of the pieces of fabric is larger than the size of the fabric you are buying'
-      return
-    }
-    let fabricHeight = FABRIC_SOLD_BY
-    solution = undefined
-    while (!solution) {
-      try {
-        const bins = packer({
-          binWidth: fabricWidth,
-          binHeight: fabricHeight,
-          items: fabricPieces,
-          allowRotation: true
-        })
-        solution = {
-          bins,
-          fabricHeight
-        }
-      } catch (err) {
-        fabricHeight += FABRIC_SOLD_BY
-      }
-    }
-    console.log(solution)
+  function removeFabricPiece (i) {
+    fabricPieces.splice(i, 1)
+    fabricPieces = [...fabricPieces] // update
   }
 
   $: {
+    function calculateFabricNeeded () {
+      console.log('calculateFabricNeeded')
+      errorMessage = ''
+      if (!fabricPieces.length) {
+        return
+      }
+      if (fabricPieces.some(({ width, height }) => (width > fabricWidth && height > fabricWidth))) {
+        errorMessage = 'One of the pieces of fabric is larger than the size of the fabric you are buying'
+        return
+      }
+      let fabricHeight = fabricSoldBy
+      solution = undefined
+      while (!solution) {
+        try {
+          const bins = packer({
+            binWidth: fabricWidth,
+            binHeight: fabricHeight,
+            items: fabricPieces,
+            allowRotation
+          })
+          solution = {
+            bins,
+            fabricHeight
+          }
+        } catch (err) {
+          fabricHeight += fabricSoldBy
+        }
+      }
+      console.log(solution)
+    }
+
     calculateFabricNeeded()
   }
-
-
-  $: solutionMessage = solution && `You need a piece of fabric ${solution.fabricHeight} inches long`
 
 </script>

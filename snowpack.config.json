@@ -1,6 +1,0 @@
-{
-  "extends": "@snowpack/app-scripts-svelte",
-  "scripts": {},
-  "devOptions": {},
-  "installOptions": {}
-}
