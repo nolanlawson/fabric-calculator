@@ -26,10 +26,10 @@ import {
 	transition_in,
 	transition_out,
 	update_keyed_each
-} from "/web_modules/svelte/internal.js";
+} from "../web_modules/svelte/internal.js";
 
 import Diagram from "./Diagram.js";
-import { packer } from "/web_modules/guillotine-packer.js";
+import { packer } from "../web_modules/guillotine-packer.js";
 import { getColor } from "./colors.js";
 
 function get_each_context(ctx, list, i) {
