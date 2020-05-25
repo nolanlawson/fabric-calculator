@@ -1,20 +1,20 @@
 <div class="grid">
   <div />
   <div class="x-label">
-    {width} inches
+    {width}" (width)
   </div>
   <div class="y-label">
-    {height} inches
+    {height}" (length)
   </div>
   <svg xmlns="http://www.w3.org/2000/svg"
        viewBox="0 0 {width} {height}"
   >
-    {#each bins as bin, i}
-      <rect x={bin.x}
-            y={bin.y}
-            width={bin.width}
-            height={bin.height}
-            fill={getColor(i)}
+    {#each items as item, i (item.id)}
+      <rect x={item.x}
+            y={item.y}
+            width={item.width}
+            height={item.height}
+            fill={getColor(item.id)}
       />
     {/each}
 
@@ -37,11 +37,12 @@
     writing-mode: vertical-rl;
     transform: rotate(180deg);
   }
+
 </style>
 <script>
   import { getColor } from './colors.js'
 
-  export let bins
+  export let items
   export let height
   export let width
 </script>
