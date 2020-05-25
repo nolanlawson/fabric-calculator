@@ -1,4 +1,3 @@
-<svelte:head><title>Fabric calculator</title></svelte:head>
 <div class="app">
   <h1>Fabric calculator</h1>
   <p>
