@@ -1,6 +1,9 @@
 # Fabric calculator
 
-> ✨ Bootstrapped with Create Snowpack App (CSA).
+Web app to calculate how much fabric you need to buy for a sewing project based on
+the pieces of fabric you need to cut.
+
+"Create Snowpack App" docs follow.
 
 ## Available Scripts
 
