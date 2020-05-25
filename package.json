@@ -2,21 +2,35 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
-    "test": "jest"
+    "test": "jest",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
   },
   "webDependencies": {},
   "devDependencies": {
     "@snowpack/app-scripts-svelte": "^0.7.4",
     "@testing-library/jest-dom": "^5.5.0",
     "@testing-library/svelte": "^3.0.0",
+    "husky": "^4.2.5",
     "jest": "^25.4.0",
+    "lint-staged": "^10.2.6",
+    "node-sass": "^4.14.1",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "snowpack": "^2.0.0-0",
     "standard": "^14.3.4",
-    "svelte": "^3.21.0"
+    "svelte": "^3.21.0",
+    "svelte-preprocess": "^3.7.4"
   },
   "dependencies": {
     "guillotine-packer": "^1.0.2",
     "rcolor": "^2.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "standard --fix"
   }
 }

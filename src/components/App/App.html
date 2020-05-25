@@ -1,0 +1,78 @@
+<svelte:head>
+  <title>Fabric calculator</title>
+</svelte:head>
+<div class="app">
+  <h1>Fabric calculator</h1>
+  <p>
+    This tool can calculate how much fabric you should buy based on the pieces you need to cut.
+    The default assumption is that fabric is sold by the half-yard. All values are in inches.
+  </p>
+  <div class="flex flex-h-when-big">
+    <div>
+      <div class="pad-v-10 pad-h-10">
+        <div class="grid grid-gap-20 grid-2fr-1fr">
+          <label for="fabric-width">Width of fabric you're buying:</label>
+          <div class="input-wrap">
+            <input id="fabric-width" type="number" inputmode="numeric"
+                   placeholder="45" bind:value={fabricWidth}>
+          </div>
+          <label for="fabric-increment">Fabric sold in increments of:</label>
+          <div class="input-wrap">
+            <input id="fabric-increment" type="number" inputmode="numeric"
+                   placeholder="18" bind:value={fabricSoldBy}>
+          </div>
+          <div class="grid-span-2">
+            <input id="fabric-rotation" type="checkbox" bind:checked={allowRotation}>
+            <label for="fabric-rotation">Allow cutting against the grain</label>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2>Pieces of fabric</h2>
+        <ul>
+          {#each fabricPieces as fabricPiece, i (fabricPiece.id)}
+          <li class="pad-v-10">
+                <span class="center-v left-h">
+                  <div class="indicator" style="background-color: {getColor(fabricPiece.id)};" />
+                  <strong>Fabric piece #{fabricPiece.id + 1}</strong>
+                </span>
+            <div class="grid grid-gap-10 pad-v-10 fabric-piece-grid">
+              <label for="fabric-width-{i}">Width:</label>
+              <div class="input-wrap">
+                <input id="fabric-width-{i}" type="number" inputmode="numeric"
+                       placeholder="10" bind:value={fabricPieces[i].width}>
+              </div>
+              <label for="fabric-height-{i}">Length:</label>
+              <div class="input-wrap">
+                <input id="fabric-height-{i}" type="number" inputmode="numeric"
+                       placeholder="10" bind:value={fabricPieces[i].height}>
+              </div>
+            </div>
+            <div>
+              <button type="button" on:click={() => removeFabricPiece(i)}>Remove</button>
+            </div>
+          </li>
+          {/each}
+        </ul>
+        <button type="button" on:click={addFabricPiece}>Add fabric piece</button>
+      </div>
+      {#if errorMessage}
+      <div class="error-message pad-v-20">{errorMessage}</div>
+      {/if}
+      {#if solution && !errorMessage}
+      <div class="solution-message pad-v-20">
+        You need a piece of fabric <strong>{solution.fabricHeight} inches</strong> long
+      </div>
+      {/if}
+    </div>
+    <div class="text-align-center">
+      {#if solution}
+      <Diagram
+        items={solution.items}
+        width={fabricWidth}
+        height={solution.fabricHeight}
+      />
+      {/if}
+    </div>
+  </div>
+</div>

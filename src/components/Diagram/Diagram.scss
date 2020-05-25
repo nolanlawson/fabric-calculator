@@ -1,0 +1,16 @@
+svg {
+  background: #fafafa;
+  border: 1px solid #333;
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  grid-template-rows: min-content 1fr;
+}
+
+.y-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}

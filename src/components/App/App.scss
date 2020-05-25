@@ -1,0 +1,159 @@
+:global(*, *::before, *::after) {
+  box-sizing: border-box;
+}
+
+:global(body) {
+  font-family: sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.grid {
+  display: grid;
+  align-items: center;
+}
+
+.grid-gap-20 {
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+}
+
+.grid-gap-10 {
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+}
+
+.grid-span-2 {
+  grid-column: 1 / 3;
+}
+
+.grid-2fr-1fr {
+  grid-template-columns: 2fr 1fr;
+}
+
+.input-wrap {
+  min-width: 0;
+}
+
+.input-wrap input {
+  width: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex > * {
+  flex: 1;
+}
+
+.flex-h {
+  flex-direction: row;
+}
+
+.flex-h-when-big {
+  flex-direction: row;
+}
+
+.flex-h-when-big > :first-child {
+  margin-right: 20px;
+}
+
+@media (max-width: 767px) {
+  .flex-h-when-big {
+    flex-direction: column;
+  }
+
+  .flex-h-when-big > :first-child {
+    margin-bottom: 20px;
+  }
+}
+
+.fabric-piece-grid {
+  grid-template-columns: 2fr 1fr 2fr 1fr;
+}
+
+@media (max-width: 767px) {
+  .fabric-piece-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.indicator {
+  width: 1em;
+  height: 1em;
+  border-radius: 1px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.center-h {
+  display: flex;
+  justify-content: center;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.center-v {
+  display: flex;
+  align-items: center;
+}
+
+.left-h {
+  display: flex;
+  justify-content: flex-start;
+}
+
+ul {
+  list-style: none;
+}
+
+.pad-v-10 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.pad-v-5 {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.pad-v-20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.pad-h-10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.error-message {
+  color: darkred;
+}
+
+.label-v > * {
+  display: block;
+  padding: 5px 0;
+}
+
+.label-h > * {
+  padding: 10px 0;
+}
+
+button {
+  padding: 3px 7px;
+  font-size: 1.1em;
+  cursor: pointer;
+}
+
+input {
+  font-size: 1em;
+}
+
+input[type=checkbox] {
+  margin-right: 10px;
+}

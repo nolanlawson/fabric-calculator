@@ -1,0 +1,22 @@
+<div class="grid">
+  <div />
+  <div class="x-label">
+    {width}" (width)
+  </div>
+  <div class="y-label">
+    {height}" (length)
+  </div>
+  <svg xmlns="http://www.w3.org/2000/svg"
+       viewBox="0 0 {width} {height}"
+  >
+    {#each items as item, i (item.id)}
+    <rect x={item.x}
+          y={item.y}
+          width={item.width}
+          height={item.height}
+          fill={getColor(item.id)}
+    />
+    {/each}
+
+  </svg>
+</div>
