@@ -29,10 +29,17 @@
         <ul>
             {#each fabricPieces as fabricPiece, i (fabricPiece.id)}
               <li class="pad-v-10">
-                <span class="center-v left-h">
-                  <div class="indicator" style="background-color: {getColor(fabricPiece.id)};"/>
-                  <strong>Fabric piece #{fabricPiece.id + 1}</strong>
-                </span>
+                <div class="center-v left-h">
+                  <div class="center-v left-h">
+                    <div class="indicator" style="background-color: {getColor(fabricPiece.id)};"/>
+                    <strong>Fabric piece #{fabricPiece.id + 1}</strong>
+                  </div>
+                  <div class="flex-1 text-align-right">
+                    <button type="button" on:click={() => removeFabricPiece(i)} aria-label="Remove" title="Remove">
+                      &times;
+                    </button>
+                  </div>
+                </div>
                 <div class="grid grid-gap-10 pad-v-10 fabric-piece-grid">
                   <label for="fabric-width-{i}">Width:</label>
                   <div class="input-wrap">
@@ -45,13 +52,12 @@
                            placeholder="10" bind:value={fabricPieces[i].height}>
                   </div>
                 </div>
-                <div>
-                  <button type="button" on:click={() => removeFabricPiece(i)}>Remove</button>
-                </div>
               </li>
             {/each}
         </ul>
-        <button type="button" on:click={addFabricPiece}>Add fabric piece</button>
+        <div class="pad-v-10">
+          <button type="button" on:click={addFabricPiece}>Add fabric piece</button>
+        </div>
       </div>
     </div>
     <div class="text-align-center">
@@ -186,6 +192,14 @@
     text-align: center;
   }
 
+  .text-align-right {
+    text-align: right;
+  }
+
+  .flex-1 {
+    flex: 1;
+  }
+
   .center-v {
     display: flex;
     align-items: center;
@@ -242,8 +256,8 @@
   }
 
   button {
-    padding: 3px 7px;
-    font-size: 1.1em;
+    padding: 2px 5px;
+    font-size: 1em;
     cursor: pointer;
   }
 
