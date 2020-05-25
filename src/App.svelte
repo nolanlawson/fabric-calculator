@@ -198,6 +198,14 @@
 
   ul {
     list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
   }
 
   :global(.pad-v-10) {
