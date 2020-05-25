@@ -32,7 +32,7 @@
                 <div class="center-v left-h">
                   <div class="center-v left-h">
                     <div class="indicator" style="background-color: {getColor(fabricPiece.id)};"/>
-                    <strong>Fabric piece #{fabricPiece.id + 1}</strong>
+                    <strong>Fabric piece #{i + 1}</strong>
                   </div>
                   <div class="flex-1 text-align-right">
                     <button type="button" on:click={() => removeFabricPiece(i)} aria-label="Remove" title="Remove">
@@ -342,7 +342,7 @@
               x: item.x,
               y: item.y,
               id: item.item.name
-            }))
+            })).sort((a, b) => (a.id < b.id ? -1 : 1))
             solution = {
               items,
               fabricHeight

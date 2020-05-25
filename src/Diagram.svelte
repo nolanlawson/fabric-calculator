@@ -1,7 +1,7 @@
 <section aria-label="Diagram {width} wide by {height} long">
   <ul class="sr-only" aria-label="Fabric pieces drawn in the diagram">
       {#each items as item, i (item.id)}
-        <li>Fabric piece #{item.id + 1}: {item.width} wide by {item.height} long, at position {item.x}, {item.y}</li>
+        <li>Fabric piece #{i + 1}: {item.width} wide by {item.height} long, at position {item.x}, {item.y}</li>
       {/each}
   </ul>
   <div class="grid" aria-hidden="true">
