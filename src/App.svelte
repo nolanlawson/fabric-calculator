@@ -31,7 +31,7 @@
             {#each fabricPieces as fabricPiece, i (fabricPiece.id)}
               <li class="pad-v-10">
                 <span class="center-v left-h">
-                  <div class="indicator" style="background-color: {getColor(fabricPiece.id)};" />
+                  <div class="indicator" style="background-color: {getColor(fabricPiece.id)};"/>
                   <strong>Fabric piece #{fabricPiece.id + 1}</strong>
                 </span>
                 <div class="grid grid-gap-10 pad-v-10 fabric-piece-grid">
@@ -54,6 +54,8 @@
         </ul>
         <button type="button" on:click={addFabricPiece}>Add fabric piece</button>
       </div>
+    </div>
+    <div class="text-align-center">
         {#if errorMessage}
           <div class="error-message pad-v-20">{errorMessage}</div>
         {/if}
@@ -62,8 +64,6 @@
             You need a piece of fabric <strong>{solution.fabricHeight} inches</strong> long
           </div>
         {/if}
-    </div>
-    <div class="text-align-center">
         {#if solution}
           <Diagram
             items={solution.items}
@@ -85,6 +85,19 @@
     margin: 0 auto;
     padding: 20px;
   }
+
+  /* via https://stackoverflow.com/a/19758620 */
+  :global(.sr-only) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
 
   .grid {
     display: grid;
@@ -276,8 +289,8 @@
         return
       }
       if (fabricPieces.some(_ => (!isValidNonzeroInteger(_.width) || !isValidNonzeroInteger(_.height))) ||
-              !isValidNonzeroInteger(fabricWidth) ||
-              !isValidNonzeroInteger(fabricSoldBy)) {
+        !isValidNonzeroInteger(fabricWidth) ||
+        !isValidNonzeroInteger(fabricSoldBy)) {
         return // ignore zeroes
       }
       if (fabricPieces.some(({ width, height }) => (width > fabricWidth && height > fabricWidth))) {
@@ -287,7 +300,7 @@
       console.log('calculating', JSON.stringify(fabricPieces), fabricWidth, fabricSoldBy)
       let fabricHeight = fabricSoldBy
       let timesCalculated = 0
-      while (!solution)  {
+      while (!solution) {
         try {
           if (timesCalculated++ > MAX_NUM_CALCULATIONS) {
             console.log(`gave up after ${MAX_NUM_CALCULATIONS} calculations`)
@@ -297,17 +310,17 @@
           const bins = packer({
             binWidth: fabricWidth,
             binHeight: fabricHeight,
-            items: fabricPieces.map(({ width, height, id}) => ({ width, height, name: id })),
+            items: fabricPieces.map(({ width, height, id }) => ({ width, height, name: id })),
           }, {
             allowRotation
           })
           if (bins.length === 1) {
             const items = bins[0].map(item => ({
-                    width: item.width,
-                    height: item.height,
-                    x: item.x,
-                    y: item.y,
-                    id: item.item.name
+              width: item.width,
+              height: item.height,
+              x: item.x,
+              y: item.y,
+              id: item.item.name
             }))
             solution = {
               items,

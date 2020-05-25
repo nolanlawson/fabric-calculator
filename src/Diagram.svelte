@@ -1,25 +1,32 @@
-<div class="grid">
-  <div />
-  <div class="x-label">
-    {width}" (width)
-  </div>
-  <div class="y-label">
-    {height}" (length)
-  </div>
-  <svg xmlns="http://www.w3.org/2000/svg"
-       viewBox="0 0 {width} {height}"
-  >
-    {#each items as item, i (item.id)}
-      <rect x={item.x}
-            y={item.y}
-            width={item.width}
-            height={item.height}
-            fill={getColor(item.id)}
-      />
-    {/each}
+<section aria-label="Diagram {width} wide by {height} long">
+  <ul class="sr-only" aria-label="Items drawn in the diagram">
+      {#each items as item, i (item.id)}
+        <li>Item #{item.id + 1}: {item.width} wide by {item.height} long, at position {item.x}, {item.y}</li>
+      {/each}
+  </ul>
+  <div class="grid" aria-hidden="true">
+    <div/>
+    <div class="x-label">
+        {width}" (width)
+    </div>
+    <div class="y-label">
+        {height}" (length)
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg"
+         viewBox="0 0 {width} {height}"
+    >
+        {#each items as item, i (item.id)}
+          <rect x={item.x}
+                y={item.y}
+                width={item.width}
+                height={item.height}
+                fill={getColor(item.id)}
+          />
+        {/each}
 
-  </svg>
-</div>
+    </svg>
+  </div>
+</section>
 <style>
   svg {
     background: #fafafa;
