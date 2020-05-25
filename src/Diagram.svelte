@@ -7,10 +7,11 @@
   <div class="grid" aria-hidden="true">
     <div/>
     <div class="x-label">
-        {width}" (width)
+        {width}"
     </div>
+    <div/>
     <div class="y-label">
-        {height}" (length)
+        {height}" (selvage)
     </div>
     <div>
       <svg xmlns="http://www.w3.org/2000/svg"
@@ -37,6 +38,9 @@
         <rect class="border" x="0" y="0" {width} {height} fill-opacity="0"></rect>
       </svg>
     </div>
+    <div class="y-label-right">
+      (selvage)
+    </div>
   </div>
   <div>
     <div class="pad-v-10">
@@ -55,13 +59,19 @@
 
   .grid {
     display: grid;
-    grid-template-columns: min-content 1fr;
+    grid-template-columns: min-content 1fr min-content;
     grid-template-rows: min-content 1fr;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
   }
 
   .y-label {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
+  }
+
+  .y-label-right {
+    writing-mode: vertical-rl;
   }
 
   .border {
@@ -73,12 +83,11 @@
   import { getColor } from './colors.js'
   let showGridlines = true
   let dashes = []
-  const GRIDLINES_INCREMENT = 18
 
   $: {
     function generateDashes() {
       const newDashes = []
-      for (let i = GRIDLINES_INCREMENT; i < width; i += GRIDLINES_INCREMENT) {
+      for (let i = increment; i < width; i += increment) {
         newDashes.push({
           x1: i,
           y1: 0,
@@ -86,7 +95,7 @@
           y2: height
         })
       }
-      for (let i = GRIDLINES_INCREMENT; i < height; i += GRIDLINES_INCREMENT) {
+      for (let i = increment; i < height; i += increment) {
         newDashes.push({
           x1: 0,
           y1: i,
@@ -100,6 +109,7 @@
     generateDashes()
   }
 
+  export let increment
   export let items
   export let height
   export let width

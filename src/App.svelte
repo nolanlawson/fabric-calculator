@@ -20,7 +20,7 @@
           </div>
           <div class="grid-span-2">
             <input id="fabric-rotation" type="checkbox" bind:checked={allowRotation}>
-            <label for="fabric-rotation">Allow cutting against the grain</label>
+            <label for="fabric-rotation">Allow rotation of fabric pieces</label>
           </div>
         </div>
       </div>
@@ -74,10 +74,15 @@
             items={solution.items}
             width={fabricWidth}
             height={solution.fabricHeight}
+            increment={fabricSoldBy}
           />
         {/if}
     </div>
   </div>
+  <footer>
+    Created by <a href="https://nolanlawson.com" target="_blank" rel="noopener">Nolan Lawson</a>.
+    See the <a href="https://github.com/nolanlawson/fabric-calculator">source code</a>.
+  </footer>
 </div>
 <style>
   :global(*, *::before, *::after) {
@@ -267,6 +272,22 @@
 
   :global(input[type=checkbox]) {
     margin-right: 7px;
+  }
+
+  :global(a, a:visited) {
+    color: #3d63d4;
+    text-decoration: none;
+  }
+
+  :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  :global(footer) {
+    margin-top: 60px;
+    font-size: 0.9rem;
+    color: #333;
+    padding: 10px;
   }
 
 </style>
