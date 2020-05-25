@@ -60,7 +60,7 @@
         {/if}
         {#if solution && !errorMessage}
           <div class="solution-message pad-v-10">
-            You need a piece of fabric <strong>{solution.fabricHeight} inches</strong> long
+            You need a piece of fabric <strong>{solution.fabricHeight} inches</strong> long.
           </div>
         {/if}
         {#if solution}
@@ -200,7 +200,7 @@
     list-style: none;
   }
 
-  .pad-v-10 {
+  :global(.pad-v-10) {
     padding-top: 10px;
     padding-bottom: 10px;
   }
@@ -243,8 +243,8 @@
     font-size: 1em;
   }
 
-  input[type=checkbox] {
-    margin-right: 10px;
+  :global(input[type=checkbox]) {
+    margin-right: 7px;
   }
 
 </style>
