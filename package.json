@@ -1,4 +1,18 @@
 {
+  "license": "Apache-2.0",
+  "name": "fabric-calculator",
+  "description": "Web app to calculate how much fabric you need to buy for a sewing project based on the pieces of fabric you need to cut.",
+  "version": "1.0.0",
+  "main": "./src/App.svelte",
+  "author": "Nolan Lawson <nolan@nolanlawson.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nolanlawson/fabric-calculator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nolanlawson/fabric-calculator/issues"
+  },
+  "homepage": "https://github.com/nolanlawson/fabric-calculator#readme",
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
@@ -12,7 +26,6 @@
     "jest": "^25.4.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "snowpack": "^2.0.0-0",
-    "standard": "^14.3.4",
     "svelte": "^3.21.0"
   },
   "dependencies": {
