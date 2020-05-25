@@ -57,10 +57,10 @@
     </div>
     <div class="text-align-center">
         {#if errorMessage}
-          <div class="error-message pad-v-20">{errorMessage}</div>
+          <div class="error-message pad-v-10">{errorMessage}</div>
         {/if}
         {#if solution && !errorMessage}
-          <div class="solution-message pad-v-20">
+          <div class="solution-message pad-v-10">
             You need a piece of fabric <strong>{solution.fabricHeight} inches</strong> long
           </div>
         {/if}
