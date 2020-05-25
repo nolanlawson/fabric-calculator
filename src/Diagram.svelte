@@ -12,25 +12,31 @@
     <div class="y-label">
         {height}" (length)
     </div>
-    <svg xmlns="http://www.w3.org/2000/svg"
-         viewBox="0 0 {width} {height}"
-    >
-        {#each items as item, i (item.id)}
-          <rect x={item.x}
-                y={item.y}
-                width={item.width}
-                height={item.height}
-                fill={getColor(item.id)}
-          />
-        {/each}
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg"
+           viewBox="0 0 {width} {height}"
+      >
+        <!-- rectangles -->
+          {#each items as item, i (item.id)}
+            <rect x={item.x}
+                  y={item.y}
+                  width={item.width}
+                  height={item.height}
+                  fill={getColor(item.id)}
+            />
+          {/each}
 
-      {#if showGridlines}
-        {#each dashes as dash ([dash.x1, dash.y1, dash.x2, dash.y2].join(','))}
-          <line x1={dash.x1} y1={dash.y1} x2={dash.x2} y2={dash.y2}
-                stroke="#adadad" stroke-dasharray="1" stroke-width="0.25" />
-        {/each}
-      {/if}
-    </svg>
+        <!-- gridlines -->
+        {#if showGridlines}
+          {#each dashes as dash ([dash.x1, dash.y1, dash.x2, dash.y2].join(','))}
+            <line x1={dash.x1} y1={dash.y1} x2={dash.x2} y2={dash.y2}
+                  class="border" stroke-dasharray="1" />
+          {/each}
+        {/if}
+        <!-- border -->
+        <rect class="border" x="0" y="0" {width} {height} fill-opacity="0"></rect>
+      </svg>
+    </div>
   </div>
   <div>
     <div class="pad-v-10">
@@ -44,7 +50,6 @@
 <style>
   svg {
     background: #fafafa;
-    border: 1px solid #333;
     width: 100%;
   }
 
@@ -59,11 +64,13 @@
     transform: rotate(180deg);
   }
 
-
+  .border {
+    stroke: #adadad;
+    stroke-width: 0.25;
+  }
 </style>
 <script>
   import { getColor } from './colors.js'
-
   let showGridlines = true
   let dashes = []
   const GRIDLINES_INCREMENT = 18
