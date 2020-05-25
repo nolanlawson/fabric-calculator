@@ -12,7 +12,6 @@
   "bugs": {
     "url": "https://github.com/nolanlawson/fabric-calculator/issues"
   },
-  "homepage": "https://github.com/nolanlawson/fabric-calculator#readme",
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
@@ -21,12 +20,14 @@
   "webDependencies": {},
   "devDependencies": {
     "@snowpack/app-scripts-svelte": "^0.7.4",
+    "@snowpack/plugin-webpack": "^0.8.1",
     "@testing-library/jest-dom": "^5.5.0",
     "@testing-library/svelte": "^3.0.0",
     "jest": "^25.4.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
-    "snowpack": "^2.0.0-0",
-    "svelte": "^3.21.0"
+    "snowpack": "^2.0.0-rc.12",
+    "svelte": "^3.21.0",
+    "webpack": "^4.43.0"
   },
   "dependencies": {
     "guillotine-packer": "^1.0.2",
