@@ -16,6 +16,7 @@
     "svelte": "^3.21.0"
   },
   "dependencies": {
-    "guillotine-packer": "^1.0.2"
+    "guillotine-packer": "^1.0.2",
+    "rcolor": "^2.0.2"
   }
 }
