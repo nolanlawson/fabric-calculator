@@ -1,4 +1,4 @@
-import rcolor2 from "../web_modules/rcolor.js";
+import rcolor2 from "/web_modules/rcolor.js";
 const oldRandom = Math.random;
 Math.random = () => 0.3;
 rcolor2.reSeed();

@@ -18,7 +18,7 @@ import {
 	svg_element,
 	text,
 	update_keyed_each
-} from "../web_modules/svelte/internal.js";
+} from "/web_modules/svelte/internal.js";
 
 import { getColor } from "./colors.js";
 
