@@ -1,7 +1,0 @@
-{
-  "imports": {
-    "guillotine-packer": "./guillotine-packer.js",
-    "rcolor": "./rcolor.js",
-    "svelte/internal": "./svelte/internal.js"
-  }
-}
