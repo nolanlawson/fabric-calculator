@@ -40,7 +40,7 @@
                     <input id="fabric-width-{i}" type="number" inputmode="numeric"
                            placeholder="10" bind:value={fabricPieces[i].width}>
                   </div>
-                  <label for="fabric-height-{i}">Height:</label>
+                  <label for="fabric-height-{i}">Length:</label>
                   <div class="input-wrap">
                     <input id="fabric-height-{i}" type="number" inputmode="numeric"
                            placeholder="10" bind:value={fabricPieces[i].height}>
