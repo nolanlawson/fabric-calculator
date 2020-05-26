@@ -41,12 +41,16 @@
                   </div>
                 </div>
                 <div class="grid grid-gap-10 pad-v-10 fabric-piece-grid">
-                  <label for="fabric-width-{i}">Width:</label>
+                  <div>
+                    <label for="fabric-width-{i}">Width:</label>
+                  </div>
                   <div class="input-wrap">
                     <input id="fabric-width-{i}" type="number" inputmode="numeric"
                            placeholder="10" bind:value={fabricPieces[i].width}>
                   </div>
-                  <label for="fabric-height-{i}">Length:</label>
+                  <div>
+                    <label for="fabric-height-{i}">Length:</label>
+                  </div>
                   <div class="input-wrap">
                     <input id="fabric-height-{i}" type="number" inputmode="numeric"
                            placeholder="10" bind:value={fabricPieces[i].height}>
@@ -134,10 +138,13 @@
 
   .input-wrap {
     min-width: 0;
+    display: flex;
   }
 
   .input-wrap input {
-    width: 100%;
+    flex: 1;
+    width: 0;
+    max-width: 100%;
   }
 
   .flex {
@@ -171,7 +178,7 @@
   }
 
   .fabric-piece-grid {
-    grid-template-columns: 2fr 1fr 2fr 1fr;
+    grid-template-columns: min-content 1fr min-content 1fr;
   }
 
   @media (max-width: 767px) {
@@ -288,6 +295,10 @@
     font-size: 0.9rem;
     color: #333;
     padding: 10px;
+  }
+
+  :global(input[type=numeric], input[type=text]) {
+    min-width: 0;
   }
 
 </style>
