@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "snowpack dev",
-    "build": "snowpack build",
+    "build": "snowpack build && rm -fr docs && cp -r build docs && sed -i 's/src=\"\\/js/src=\".\\/js/' docs/index.html && sed -i 's/href=\"\\/css/href=\".\\/css/' docs/index.html",
     "test": "jest",
     "lint": "standard",
     "lint:fix": "standard --fix"
