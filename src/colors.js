@@ -11,10 +11,9 @@ Math.random = oldRandom
 
 const colors = []
 
-export function getColor(i) {
+export function getColor (i) {
   while (!colors[i]) {
     colors.push(rcolor())
   }
   return colors[i]
 }
-

@@ -347,7 +347,7 @@
         return // ignore zeroes
       }
       if (fabricPieces.some(({ width, height }) => (width > fabricWidth && height > fabricWidth))) {
-        errorMessage = 'One of the pieces of fabric is larger than the size of the fabric you are buying'
+        errorMessage = 'One of the pieces of fabric is larger than the size of the fabric you are buying.'
         return
       }
       console.log('calculating', JSON.stringify(fabricPieces), fabricWidth, fabricSoldBy)
@@ -357,7 +357,7 @@
         try {
           if (timesCalculated++ > MAX_NUM_CALCULATIONS) {
             console.log(`gave up after ${MAX_NUM_CALCULATIONS} calculations`)
-            errorMessage = 'Could not calculate a solution to this problem'
+            errorMessage = 'Could not calculate a solution to this problem.'
             return
           }
           const bins = packer({

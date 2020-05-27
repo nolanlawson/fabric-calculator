@@ -15,10 +15,13 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
-    "test": "jest"
+    "test": "jest",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
   },
   "webDependencies": {},
   "devDependencies": {
+    "@babel/preset-env": "^7.10.0",
     "@snowpack/app-scripts-svelte": "^0.7.4",
     "@snowpack/plugin-webpack": "^0.8.1",
     "@testing-library/jest-dom": "^5.5.0",
@@ -26,11 +29,18 @@
     "jest": "^25.4.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "snowpack": "^2.0.0-rc.12",
+    "standard": "^14.3.4",
     "svelte": "^3.21.0",
     "webpack": "^4.43.0"
   },
   "dependencies": {
     "guillotine-packer": "^1.0.2",
     "rcolor": "^2.0.2"
+  },
+  "standard": {
+    "ignore": [
+      "docs",
+      "build"
+    ]
   }
 }
