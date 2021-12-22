@@ -52,8 +52,8 @@
                      bind:value={numFabricPiecesToAdd}>
             </div>
           </div>
-          <div class="pad-v-10 flex flex-h">
-            <div class="flex center-h flex-1 pad-h-5">
+          <div class="pad-v-10 flex flex-h flex-gap-10">
+            <div class="flex center-h flex-1">
               <button type="button" on:click={addFabricPieces}>
                 {#if numFabricPiecesToAdd > 1}
                   Add fabric pieces
@@ -62,7 +62,7 @@
                 {/if}
               </button>
             </div>
-            <div class="flex center-h flex-1 pad-h-5">
+            <div class="flex center-h flex-1">
               <button type="button" on:click={removeAll} disabled={!fabricPieces.length}>Remove all</button>
             </div>
           </div>
@@ -274,7 +274,11 @@
   }
 
   .flex-gap-5 {
-      gap: 5px;
+    gap: 5px;
+  }
+
+  .flex-gap-10 {
+    gap: 10px;
   }
 
   .center-v {
