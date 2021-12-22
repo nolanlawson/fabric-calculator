@@ -26,42 +26,87 @@
       </div>
       <div>
         <h2>Pieces of fabric</h2>
-        <ul>
-            {#each fabricPieces as fabricPiece, i (fabricPiece.id)}
-              <li class="pad-v-10">
-                <div class="center-v left-h">
-                  <div class="center-v left-h">
-                    <div class="indicator" style="background-color: {getColor(fabricPiece.id)};"/>
-                    <strong>Fabric piece #{i + 1}</strong>
-                  </div>
-                  <div class="flex-1 text-align-right">
-                    <button type="button" on:click={() => removeFabricPiece(i)} aria-label="Remove" title="Remove">
-                      &times;
-                    </button>
-                  </div>
-                </div>
-                <div class="grid grid-gap-10 pad-v-10 fabric-piece-grid">
-                  <div>
-                    <label for="fabric-width-{i}">Width:</label>
-                  </div>
-                  <div class="input-wrap">
-                    <input id="fabric-width-{i}" type="number" inputmode="numeric"
-                           placeholder="10" bind:value={fabricPieces[i].width}>
-                  </div>
-                  <div>
-                    <label for="fabric-height-{i}">Length:</label>
-                  </div>
-                  <div class="input-wrap">
-                    <input id="fabric-height-{i}" type="number" inputmode="numeric"
-                           placeholder="10" bind:value={fabricPieces[i].height}>
-                  </div>
-                </div>
-              </li>
-            {/each}
-        </ul>
-        <div class="pad-v-10">
-          <button type="button" on:click={addFabricPiece}>Add fabric piece</button>
+        <h3 class="sr-only">Add pieces of fabric</h3>
+        <div class="pad-h-10">
+          <div class="grid pad-v-10 fabric-piece-input-grid grid-gap-20">
+            <div>
+              <label for="fabric-width-default">Width:</label>
+            </div>
+            <div class="input-wrap">
+              <input id="fabric-width-default" type="number" inputmode="numeric"
+                     placeholder="10" bind:value={widthOfFabricToAdd}>
+            </div>
+            <div>
+              <label for="fabric-height-default">Length:</label>
+            </div>
+            <div class="input-wrap">
+              <input id="fabric-height-default" type="number" inputmode="numeric"
+                     placeholder="10" bind:value={heightOfFabricToAdd}>
+            </div>
+            <div class="grid-span-3-when-big">
+              <label for="fabric-pieces-to-add">Number of pieces to add:</label>
+            </div>
+            <div class="input-wrap">
+              <input type="number" min="1" inputmode="numeric" step="1"
+                     placeholder="1" id="fabric-pieces-to-add"
+                     bind:value={numFabricPiecesToAdd}>
+            </div>
+          </div>
+          <div class="pad-v-10 flex flex-h flex-gap-10">
+            <div class="flex center-h flex-1">
+              <button type="button" on:click={addFabricPieces}>
+                {#if numFabricPiecesToAdd > 1}
+                  Add fabric pieces
+                {:else}
+                  Add fabric piece
+                {/if}
+              </button>
+            </div>
+            <div class="flex center-h flex-1">
+              <button type="button" on:click={removeAll} disabled={!fabricPieces.length}>Remove all</button>
+            </div>
+          </div>
         </div>
+        {#if fabricPieces.length}
+          <h3 class="sr-only">Current pieces of fabric</h3>
+          <ul class="pad-v-20">
+              {#each fabricPieces as fabricPiece, i (fabricPiece.id)}
+                <li class="pad-v-10">
+                  <div class="center-v left-h">
+                    <div class="center-v left-h">
+                      <div class="indicator" style="background-color: {getColor(fabricPiece.id)};"/>
+                      <strong>Fabric piece #{i + 1}</strong>
+                    </div>
+                    <div class="flex-1 text-align-right">
+                      <button class="min-touch-target"
+                              type="button"
+                              aria-label="Remove"
+                              title="Remove"
+                              on:click={() => removeFabricPiece(i)}>
+                        &times;
+                      </button>
+                    </div>
+                  </div>
+                  <div class="grid grid-gap-10 pad-v-10 fabric-piece-grid">
+                    <div>
+                      <label for="fabric-width-{i}">Width:</label>
+                    </div>
+                    <div class="input-wrap">
+                      <input id="fabric-width-{i}" type="number" inputmode="numeric"
+                             placeholder="10" bind:value={fabricPieces[i].width}>
+                    </div>
+                    <div>
+                      <label for="fabric-height-{i}">Length:</label>
+                    </div>
+                    <div class="input-wrap">
+                      <input id="fabric-height-{i}" type="number" inputmode="numeric"
+                             placeholder="10" bind:value={fabricPieces[i].height}>
+                    </div>
+                  </div>
+                </li>
+              {/each}
+          </ul>
+        {/if}
       </div>
     </div>
     <div class="text-align-center">
@@ -132,6 +177,12 @@
     grid-column: 1 / 3;
   }
 
+  @media (min-width: 768px) {
+      .grid-span-3-when-big {
+          grid-column: 1 / 4;
+      }
+  }
+
   .grid-2fr-1fr {
     grid-template-columns: 2fr 1fr;
   }
@@ -187,6 +238,16 @@
     }
   }
 
+  .fabric-piece-input-grid {
+      grid-template-columns: min-content 1fr min-content 1fr;
+  }
+
+  @media (max-width: 767px) {
+      .fabric-piece-input-grid {
+          grid-template-columns: 2fr 1fr;
+      }
+  }
+
   .indicator {
     width: 1em;
     height: 1em;
@@ -210,6 +271,14 @@
 
   .flex-1 {
     flex: 1;
+  }
+
+  .flex-gap-5 {
+    gap: 5px;
+  }
+
+  .flex-gap-10 {
+    gap: 10px;
   }
 
   .center-v {
@@ -249,6 +318,11 @@
     padding-bottom: 20px;
   }
 
+  .pad-h-5 {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
   .pad-h-10 {
     padding-left: 10px;
     padding-right: 10px;
@@ -271,6 +345,10 @@
     padding: 2px 5px;
     font-size: 1em;
     cursor: pointer;
+  }
+
+  button.min-touch-target {
+    padding: 2px 10px;
   }
 
   input {
@@ -309,6 +387,9 @@
 
   const MAX_NUM_CALCULATIONS = 100
 
+  let widthOfFabricToAdd = 10
+  let heightOfFabricToAdd = 10
+  let numFabricPiecesToAdd = 1
   let fabricSoldBy = 18 // half a yard
   let fabricPieces = []
   let fabricWidth = 45
@@ -317,17 +398,22 @@
   let fabricId = -1
   let solution
 
-  function addFabricPiece () {
-    fabricPieces = fabricPieces.concat([{
-      width: 10,
-      height: 10,
+  function addFabricPieces () {
+    fabricPieces.push(...Array(Math.floor(numFabricPiecesToAdd)).fill().map(() => ({
+      width: widthOfFabricToAdd,
+      height: heightOfFabricToAdd,
       id: ++fabricId
-    }])
+    })))
+    fabricPieces = fabricPieces // update
+  }
+
+  function removeAll () {
+    fabricPieces = []
   }
 
   function removeFabricPiece (i) {
     fabricPieces.splice(i, 1)
-    fabricPieces = [...fabricPieces] // update
+    fabricPieces = fabricPieces // update
   }
 
   function isValidNonzeroInteger (i) {
