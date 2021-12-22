@@ -47,7 +47,7 @@
               <label for="fabric-pieces-to-add">Number of pieces to add:</label>
             </div>
             <div class="input-wrap">
-              <input type="number" min="1" inputmode="numeric"
+              <input type="number" min="1" inputmode="numeric" step="1"
                      placeholder="1" id="fabric-pieces-to-add"
                      bind:value={numFabricPiecesToAdd}>
             </div>
@@ -395,7 +395,7 @@
   let solution
 
   function addFabricPieces () {
-    fabricPieces.push(...Array(numFabricPiecesToAdd).fill().map(() => ({
+    fabricPieces.push(...Array(Math.floor(numFabricPiecesToAdd)).fill().map(() => ({
       width: widthOfFabricToAdd,
       height: heightOfFabricToAdd,
       id: ++fabricId
