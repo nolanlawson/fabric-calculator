@@ -3,7 +3,7 @@
   "name": "fabric-calculator",
   "description": "Web app to calculate how much fabric you need to buy for a sewing project based on the pieces of fabric you need to cut.",
   "version": "1.0.0",
-  "main": "./src/App.svelte",
+  "type": "module",
   "author": "Nolan Lawson <nolan@nolanlawson.com>",
   "repository": {
     "type": "git",
@@ -13,38 +13,31 @@
     "url": "https://github.com/nolanlawson/fabric-calculator/issues"
   },
   "scripts": {
-    "start": "snowpack dev",
-    "build": "snowpack build && rm -fr docs && cp -r build docs && sed -i 's/src=\"\\/js/src=\".\\/js/' docs/index.html && sed -i 's/href=\"\\/css/href=\".\\/css/' docs/index.html",
-    "test": "jest",
-    "lint": "standard",
-    "lint:fix": "standard --fix"
-  },
-  "webDependencies": {},
-  "devDependencies": {
-    "@babel/preset-env": "^7.10.0",
-    "@snowpack/app-scripts-svelte": "^0.7.4",
-    "@snowpack/plugin-webpack": "^0.8.1",
-    "@testing-library/jest-dom": "^5.5.0",
-    "@testing-library/svelte": "^3.0.0",
-    "jest": "^25.4.0",
-    "rollup-plugin-node-polyfills": "^0.2.1",
-    "snowpack": "^2.0.0-rc.12",
-    "standard": "^14.3.4",
-    "svelte": "^3.21.0",
-    "webpack": "^4.43.0"
+    "start": "parcel ./src/index.html",
+    "build": "rimraf ./docs && parcel build --dist-dir ./docs ./src/index.html",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "lint": "standard"
   },
   "dependencies": {
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/svelte": "^3.0.3",
     "guillotine-packer": "^1.0.2",
-    "rcolor": "^2.0.2"
+    "jest": "^27.4.5",
+    "parcel": "^2.0.1",
+    "parcel-transformer-svelte": "^1.2.3",
+    "rcolor": "^2.0.2",
+    "rimraf": "^3.0.2",
+    "standard": "^16.0.4",
+    "svelte": "^3.44.3",
+    "svelte-jester": "^2.1.5"
   },
   "standard": {
     "ignore": [
-      "docs",
-      "build"
+      "docs"
     ]
   },
   "volta": {
     "node": "14.18.2",
-    "npm": "6.14.15"
+    "yarn": "1.22.17"
   }
 }
