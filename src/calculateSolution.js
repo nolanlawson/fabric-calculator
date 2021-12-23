@@ -1,3 +1,4 @@
+/* global Worker */
 import PromiseWorker from 'promise-worker'
 import { isValidNonzeroInteger } from './util.js'
 

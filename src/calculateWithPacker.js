@@ -3,7 +3,7 @@ import * as marky from 'marky'
 
 const MAX_NUM_CALCULATIONS = 100
 
-function doCalculate({ fabricPieces, fabricWidth, fabricSoldBy, allowRotation }) {
+function doCalculate ({ fabricPieces, fabricWidth, fabricSoldBy, allowRotation }) {
   let fabricHeight = fabricSoldBy
   let timesCalculated = 0
   while (true) {

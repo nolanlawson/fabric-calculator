@@ -1,5 +1,5 @@
 /* global beforeEach, test, expect, describe */
-import { render, fireEvent, waitFor, getByLabelText } from '@testing-library/svelte'
+import { render, fireEvent, waitFor } from '@testing-library/svelte'
 import App from './App.svelte'
 import { jest } from '@jest/globals'
 
