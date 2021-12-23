@@ -14,7 +14,8 @@
   },
   "scripts": {
     "start": "parcel ./src/index.html",
-    "build": "rimraf ./docs && parcel build --dist-dir ./docs ./src/index.html",
+    "//": "Parcel moves all script/link/img references to an absolute path, doesn't work when hosted at a sub-path",
+    "build": "rimraf ./docs && parcel build --dist-dir ./docs ./src/index.html && replace '(href|src)=\"/' '$1=\"./' ./docs/index.html",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lint": "standard"
   },
@@ -26,6 +27,7 @@
     "parcel": "^2.0.1",
     "parcel-transformer-svelte": "^1.2.3",
     "rcolor": "^2.0.2",
+    "replace": "^1.2.1",
     "rimraf": "^3.0.2",
     "standard": "^16.0.4",
     "svelte": "^3.44.3",
