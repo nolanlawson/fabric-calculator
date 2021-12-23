@@ -1,8 +1,9 @@
 import { packer } from 'guillotine-packer'
+import * as marky from 'marky'
 
 const MAX_NUM_CALCULATIONS = 100
 
-export function calculateWithPacker ({ fabricPieces, fabricWidth, fabricSoldBy, allowRotation }) {
+function doCalculate({ fabricPieces, fabricWidth, fabricSoldBy, allowRotation }) {
   let fabricHeight = fabricSoldBy
   let timesCalculated = 0
   while (true) {
@@ -37,5 +38,14 @@ export function calculateWithPacker ({ fabricPieces, fabricWidth, fabricSoldBy, 
     } catch (err) {
       fabricHeight += fabricSoldBy
     }
+  }
+}
+
+export function calculateWithPacker (data) {
+  marky.mark('calculate')
+  try {
+    return doCalculate(data)
+  } finally {
+    marky.stop('calculate')
   }
 }

@@ -24,6 +24,7 @@
     "@testing-library/svelte": "^3.0.3",
     "guillotine-packer": "^1.0.2",
     "jest": "^27.4.5",
+    "marky": "^1.2.2",
     "parcel": "^2.0.1",
     "parcel-transformer-svelte": "^1.2.3",
     "promise-worker": "^2.0.1",

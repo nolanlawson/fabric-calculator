@@ -1,14 +1,26 @@
 import PromiseWorker from 'promise-worker'
+import { isValidNonzeroInteger } from './util.js'
 
-function isValidNonzeroInteger (i) {
-  return i && typeof i === 'number' && i > 0
+function createPromiseWorker () {
+  const worker = new Worker(new URL('./worker.js', import.meta.url), {
+    type: 'module'
+  })
+
+  return new PromiseWorker(worker)
 }
 
-const worker = new Worker(new URL('./worker.js', import.meta.url), {
-  type: 'module'
-})
+// workers don't play nice with jest
+function createJestWorker () {
+  return {
+    postMessage: async function (data) {
+      // lazy-load so prod doesn't get this imported twice
+      const { calculateWithPacker } = await import('./calculateWithPacker.js')
+      return calculateWithPacker(data)
+    }
+  }
+}
 
-const promiseWorker = new PromiseWorker(worker)
+const promiseWorker = process.env.NODE_ENV === 'test' ? createJestWorker() : createPromiseWorker()
 
 export async function calculateSolution ({ fabricPieces, fabricWidth, fabricSoldBy, allowRotation }) {
   if (!fabricPieces.length) {
