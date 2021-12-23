@@ -110,22 +110,29 @@
       </div>
     </div>
     <div class="text-align-center">
-        {#if errorMessage}
-          <div class="error-message pad-v-10">{errorMessage}</div>
+      <div class="pad-v-10"
+           class:error-message={!showLoadingIndicator && errorMessage}
+           class:solution-message={!showLoadingIndicator && !errorMessage && solution}>
+        {#if showLoadingIndicator}
+          Calculating…
+        {:else if errorMessage}
+          {errorMessage}
+        {:else if solution}
+          You need a piece of fabric <strong>{solution.fabricHeight} inches</strong> long
+        {:else}
+          &nbsp;
         {/if}
-        {#if solution && !errorMessage}
-          <div class="solution-message pad-v-10">
-            You need a piece of fabric <strong>{solution.fabricHeight} inches</strong> long.
-          </div>
-        {/if}
-        {#if solution}
+      </div>
+      {#if !showLoadingIndicator && !errorMessage && solution}
+        <div transition:fade="{{duration: 250}}">
           <Diagram
             items={solution.items}
             width={fabricWidth}
             height={solution.fabricHeight}
             increment={fabricSoldBy}
           />
-        {/if}
+        </div>
+      {/if}
     </div>
   </div>
   <footer>
@@ -382,10 +389,12 @@
 </style>
 <script>
   import Diagram from './Diagram.svelte'
-  import { packer } from 'guillotine-packer'
   import { getColor } from './colors.js'
+  import { calculateSolution } from './calculateSolution'
+  import deepIs from 'deep-is'
+  import { fade } from 'svelte/transition';
 
-  const MAX_NUM_CALCULATIONS = 100
+  const LOADING_INDICATOR_DELAY = 200
 
   let widthOfFabricToAdd = 10
   let heightOfFabricToAdd = 10
@@ -397,6 +406,7 @@
   let errorMessage = ''
   let fabricId = -1
   let solution
+  let showLoadingIndicator = false
 
   function addFabricPieces () {
     fabricPieces.push(...Array(Math.floor(numFabricPiecesToAdd)).fill().map(() => ({
@@ -416,63 +426,47 @@
     fabricPieces = fabricPieces // update
   }
 
-  function isValidNonzeroInteger (i) {
-    return i && typeof i === 'number' && i > 0
-  }
-
   $: {
-    function calculateFabricNeeded () {
-      solution = undefined
-      errorMessage = ''
-      if (!fabricPieces.length) {
-        return
+    async function calculateFabricNeeded () {
+      const getInput = () => JSON.parse(JSON.stringify({ fabricPieces, fabricWidth, fabricSoldBy, allowRotation }))
+
+      const input = getInput()
+      if (solution && deepIs(solution.input, input)) {
+        return // avoid infinite reactivity loop
       }
-      if (fabricPieces.some(_ => (!isValidNonzeroInteger(_.width) || !isValidNonzeroInteger(_.height))) ||
-        !isValidNonzeroInteger(fabricWidth) ||
-        !isValidNonzeroInteger(fabricSoldBy)) {
-        return // ignore zeroes
-      }
-      if (fabricPieces.some(({ width, height }) => (width > fabricWidth && height > fabricWidth))) {
-        errorMessage = 'One of the pieces of fabric is larger than the size of the fabric you are buying.'
-        return
-      }
-      console.log('calculating', JSON.stringify(fabricPieces), fabricWidth, fabricSoldBy)
-      let fabricHeight = fabricSoldBy
-      let timesCalculated = 0
-      while (!solution) {
-        try {
-          if (timesCalculated++ > MAX_NUM_CALCULATIONS) {
-            console.log(`gave up after ${MAX_NUM_CALCULATIONS} calculations`)
-            errorMessage = 'Could not calculate a solution to this problem.'
-            return
-          }
-          const bins = packer({
-            binWidth: fabricWidth,
-            binHeight: fabricHeight,
-            items: fabricPieces.map(({ width, height, id }) => ({ width, height, name: id })),
-          }, {
-            allowRotation
-          })
-          if (bins.length === 1) {
-            const items = bins[0].map(item => ({
-              width: item.width,
-              height: item.height,
-              x: item.x,
-              y: item.y,
-              id: item.item.name
-            })).sort((a, b) => (a.id < b.id ? -1 : 1))
-            solution = {
-              items,
-              fabricHeight
-            }
-          } else {
-            fabricHeight += fabricSoldBy
-          }
-        } catch (err) {
-          fabricHeight += fabricSoldBy
+      console.log('calculating', input)
+      const handle = setTimeout(() => {
+        showLoadingIndicator = true
+      }, LOADING_INDICATOR_DELAY)
+      try {
+        const {
+          noSolution,
+          error,
+          items,
+          fabricHeight,
+          timesCalculated
+        } = await calculateSolution(input)
+
+        if (!deepIs(getInput(), input)) {
+          return // something changed asynchronously, ignore
         }
+
+        if (noSolution) {
+          solution = undefined
+          errorMessage = ''
+        } else if (error) {
+          solution = undefined
+          errorMessage = error
+        } else {
+          const newSolution = { items, fabricHeight, input }
+          console.log(`solution (calculated ${timesCalculated} time(s))`, newSolution)
+          solution = newSolution
+          errorMessage = ''
+        }
+      } finally {
+        clearTimeout(handle)
+        showLoadingIndicator = false
       }
-      console.log(`solution (calculated ${timesCalculated} time(s))`, solution)
     }
 
     calculateFabricNeeded()
