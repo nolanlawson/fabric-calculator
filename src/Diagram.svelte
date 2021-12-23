@@ -81,33 +81,36 @@
 </style>
 <script>
   import { getColor } from './colors.js'
+  import { isValidNonzeroInteger } from './util.js'
+
   let showGridlines = true
   let dashes = []
 
-  $: {
-    function generateDashes() {
-      const newDashes = []
-      for (let i = increment; i < width; i += increment) {
-        newDashes.push({
-          x1: i,
-          y1: 0,
-          x2: i,
-          y2: height
-        })
-      }
-      for (let i = increment; i < height; i += increment) {
-        newDashes.push({
-          x1: 0,
-          y1: i,
-          x2: width,
-          y2: i
-        })
-      }
-      dashes = newDashes
+  function calculateDashes(width, height, increment) {
+    if (!isValidNonzeroInteger(increment) || !isValidNonzeroInteger(width) || !isValidNonzeroInteger(height)) {
+      return []
     }
-
-    generateDashes()
+    const result = []
+    for (let i = increment; i < width; i += increment) {
+      result.push({
+        x1: i,
+        y1: 0,
+        x2: i,
+        y2: height
+      })
+    }
+    for (let i = increment; i < height; i += increment) {
+      result.push({
+        x1: 0,
+        y1: i,
+        x2: width,
+        y2: i
+      })
+    }
+    return result
   }
+
+  $: dashes = calculateDashes(width, height, increment)
 
   export let increment
   export let items
