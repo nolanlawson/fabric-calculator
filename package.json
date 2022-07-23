@@ -25,7 +25,7 @@
     "guillotine-packer": "^1.0.2",
     "jest": "^27.4.5",
     "marky": "^1.2.2",
-    "parcel": "^2.0.1",
+    "parcel": "^2.6.2",
     "parcel-transformer-svelte": "^1.2.3",
     "promise-worker": "^2.0.1",
     "rcolor": "^2.0.2",
@@ -41,7 +41,13 @@
     ]
   },
   "volta": {
-    "node": "14.18.2",
-    "yarn": "1.22.17"
+    "node": "16.16.0",
+    "yarn": "1.22.19"
+  },
+  "devDependencies": {
+    "os-browserify": "^0.3.0",
+    "process": "^0.11.10",
+    "tty-browserify": "^0.0.1",
+    "util": "^0.12.4"
   }
 }
