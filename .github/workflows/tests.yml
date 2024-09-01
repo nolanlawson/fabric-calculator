@@ -12,6 +12,6 @@ jobs:
         with:
           node-version: '22'
           cache: 'pnpm'
-      - run: pnpm --frozen-lockfile
+      - run: pnpm i --frozen-lockfile
       - run: pnpm lint
       - run: pnpm test
