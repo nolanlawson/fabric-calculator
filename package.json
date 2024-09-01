@@ -32,7 +32,7 @@
     "replace": "^1.2.1",
     "rimraf": "^3.0.2",
     "standard": "^16.0.4",
-    "svelte": "^3.49.0",
+    "svelte": "^4.2.19",
     "svelte-jester": "^2.1.5"
   },
   "standard": {
